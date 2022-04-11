@@ -36,6 +36,7 @@ public class NativeSQL {
 
             long endTime = System.currentTimeMillis();
             long executeTime = endTime - startTime;
+            //=======================
 
             logger.info("HANA Connection Time:"  + executeTime);
 
