@@ -1,0 +1,11 @@
+---
+applications:
+
+  - name: ztrainingcfbackend
+    path: target/trainingcfbackend-0.0.1-SNAPSHOT.jar
+    buildpacks:
+      - sap_java_buildpack
+    memory: 1024M
+    disk-quota: 1G
+    routes:
+      - route: ztrainingcfbackend.cfapps.br10.hana.ondemand.com
