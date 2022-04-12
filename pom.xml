@@ -23,6 +23,7 @@
 			<properties>
 				<packaging.type>jar</packaging.type>
 			</properties>
+
 		</profile>
 	</profiles>
 	<properties>
