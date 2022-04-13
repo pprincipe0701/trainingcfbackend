@@ -1,16 +1,24 @@
 package com.incloud.hcp.rest;
 
+import com.incloud.hcp.domain.Participante;
 import com.incloud.hcp.dto.DemoDto;
+import com.incloud.hcp.dto.ParticipanteDto;
 import com.incloud.hcp.service.AppProcesoLogService;
 import com.incloud.hcp.service.NativeSQLRunner;
+import com.incloud.hcp.service.ParticipanteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -26,6 +34,9 @@ public class TestRest {
 
     @Autowired
     AppProcesoLogService appProcesoLogService;
+
+    @Autowired
+    ParticipanteService participanteService;
 
     /*@Autowired
     AppProcesoLogMapper appProcesoLogMapper;*/
@@ -62,6 +73,36 @@ public class TestRest {
             throw new RuntimeException(e.toString());
         }
 
+    }
+
+    @GetMapping(value = "/listaParticipantes", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Participante>> listaParticipantes() {
+        List<Participante> lista = new ArrayList<Participante>();
+
+        try {
+            lista = this.participanteService.listaParticipantes();
+            return Optional.ofNullable(lista)
+                    .map(l -> new ResponseEntity<>(l, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            //String error = Utils.obtieneMensajeErrorException(e);
+            throw new RuntimeException(e.toString());
+        }
+
+    }
+
+
+    @PostMapping(value = "/grabarParticipante", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity <Participante> grabarProcesoLog(@RequestBody ParticipanteDto dto) throws URISyntaxException {
+        log.debug("Lista Grupo Articulos : {}");
+        Participante participante = null;
+        try {
+            participante = this.participanteService.crearParticipante(dto);
+            return Optional.ofNullable(participante)
+                    .map(l -> new ResponseEntity<>(l, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            //String error = Utils.obtieneMensajeErrorException(e);
+            throw new RuntimeException("" + e.toString());
+        }
     }
 
     /*@ApiOperation(value = "Lista de log de procesos", produces = "application/json")
