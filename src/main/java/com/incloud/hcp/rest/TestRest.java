@@ -105,6 +105,22 @@ public class TestRest {
         }
     }
 
+    @PostMapping(value = "/listaParticipanteMyBatis", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity <List<Participante>> listaParticipanteMyBatis(@RequestBody ParticipanteDto dto) throws URISyntaxException {
+        log.debug("Lista Grupo Articulos : {}");
+        log.info("listaParticipanteMyBatis_INPUT:: " + dto);
+        List<Participante> lista = new ArrayList<Participante>();
+        try {
+            lista = this.participanteService.listaParticipantesByMyBatis(dto.getNombre(), dto.getApellido(), dto.getEdad());
+            log.info("listaParticipanteMyBatis_OUTPUT:: " + lista);
+            return Optional.ofNullable(lista)
+                    .map(l -> new ResponseEntity<>(l, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            //String error = Utils.obtieneMensajeErrorException(e);
+            throw new RuntimeException("" + e.toString());
+        }
+    }
+
     /*@ApiOperation(value = "Lista de log de procesos", produces = "application/json")
     @GetMapping(value = "/listaProcesos", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AppProcesoLog>> listaProcesos() {

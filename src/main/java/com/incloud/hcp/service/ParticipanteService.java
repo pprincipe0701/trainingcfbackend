@@ -9,4 +9,5 @@ public interface ParticipanteService {
 
  List<Participante> listaParticipantes();
  Participante crearParticipante(ParticipanteDto participante) throws  Exception;
+ List<Participante> listaParticipantesByMyBatis(String nombre, String apellido, Integer edad);
 }

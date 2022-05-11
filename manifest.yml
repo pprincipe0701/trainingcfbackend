@@ -9,3 +9,8 @@ applications:
     disk-quota: 1G
     routes:
       - route: ztrainingcfbackend.cfapps.br10.hana.ondemand.com
+    env:
+      TARGET_RUNTIME: Tomcat
+      SET_LOGGING_LEVEL: '{ROOT: INFO, com.sap.cloud.sdk: INFO}'
+      JBP_CONFIG_SAPJVM_MEMORY_SIZES: 'metaspace:128m..'
+      SPRING_PROFILES_ACTIVE: dev

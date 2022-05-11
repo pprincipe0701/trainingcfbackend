@@ -2,6 +2,7 @@ package com.incloud.hcp.service.impl;
 
 import com.incloud.hcp.domain.Participante;
 import com.incloud.hcp.dto.ParticipanteDto;
+import com.incloud.hcp.myibatis.mapper.ParticipanteMapper;
 import com.incloud.hcp.repository.ParticipanteRepository;
 import com.incloud.hcp.service.ParticipanteService;
 import org.slf4j.Logger;
@@ -22,8 +23,16 @@ public class ParticipanteServiceImpl implements ParticipanteService {
     @Autowired
     ParticipanteRepository participanteRepository;
 
+    @Autowired
+    ParticipanteMapper participanteMapper;
+
     public List<Participante> listaParticipantes() {
+
         return participanteRepository.findAll();
+    }
+
+    public List<Participante>listaParticipantesByMyBatis(String nombre, String apellido, Integer edad) {
+        return participanteMapper.listaParticipante(nombre,apellido,edad);
     }
 
     public Participante crearParticipante(ParticipanteDto participante) throws  Exception {
@@ -38,6 +47,7 @@ public class ParticipanteServiceImpl implements ParticipanteService {
         dbParticipante.setRol("P");
         dbParticipante.setSexo("M");
         Participante out = this.participanteRepository.save(dbParticipante);
+
         return out;
     }
 
